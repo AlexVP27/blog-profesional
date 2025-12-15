@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portafolio profesional de Alex Vilchez - Desarrollador de Aplicaciones Multiplataforma">
-    <title>Alex Vilchez | Portfolio.java</title>
+    <meta name="description"
+        content="Portafolio profesional de Alex Vilchez - Desarrollador de Aplicaciones Multiplataforma">
+    <title>Alex Vilchez | Portfolio</title>
     <!-- Fuente tipo código para dar el toque 'dev' -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos para flechas y GitHub -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         /* --- VARIABLES DE TEMA VS CODE --- */
         :root {
-            --bg-body: #1e1e1e; /* Fondo VS Code */
-            --bg-card: #252526; /* Fondo Paneles */
+            --bg-body: #1e1e1e;
+            /* Fondo VS Code */
+            --bg-card: #252526;
+            /* Fondo Paneles */
             --text-main: #d4d4d4;
             --text-comment: #6a9955;
-            --accent-blue: #4fc1ff; /* Variables/Métodos */
-            --accent-cyan: #9cdcfe; /* Propiedades */
-            --accent-keyword: #569cd6; /* Keywords (public, class) */
-            --accent-string: #ce9178; /* Strings */
+            --accent-blue: #4fc1ff;
+            /* Variables/Métodos */
+            --accent-cyan: #9cdcfe;
+            /* Propiedades */
+            --accent-keyword: #569cd6;
+            /* Keywords (public, class) */
+            --accent-string: #ce9178;
+            /* Strings */
             --border: #3c3c3c;
             --btn-hover: #2d2d2d;
         }
@@ -37,7 +50,10 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .code-font {
+        h1,
+        h2,
+        h3,
+        .code-font {
             font-family: 'Fira Code', monospace;
         }
 
@@ -50,6 +66,7 @@
         a:hover {
             color: var(--accent-cyan);
             text-decoration: underline;
+            cursor: pointer;
         }
 
         /* --- NAVEGACIÓN --- */
@@ -154,10 +171,10 @@
             counter-increment: section-counter;
         }
 
-        /* --- PROYECTOS --- */
+        /* --- PROYECTOS (ESTILO CARRUSEL) --- */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
 
@@ -166,7 +183,9 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
@@ -174,31 +193,99 @@
             border-color: var(--accent-blue);
         }
 
-        .project-img-container {
+        /* Estilos del Carrusel */
+        .carousel-container {
+            position: relative;
             width: 100%;
-            height: 180px;
+            aspect-ratio: 16/9;
             background-color: #000;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            border-bottom: 1px solid var(--border);
         }
 
-        .project-img-container img {
+        .carousel-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.8;
+            object-position: top;
+            opacity: 0.9;
             transition: opacity 0.3s;
         }
 
-        .project-card:hover img {
+        .project-card:hover .carousel-slide img {
             opacity: 1;
+        }
+
+        /* Botones del carrusel */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            /* Ocultos por defecto */
+            transition: opacity 0.3s, background 0.3s;
+        }
+
+        .project-card:hover .carousel-btn {
+            opacity: 1;
+            /* Mostrar al hover */
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent-blue);
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
         }
 
         .project-content {
             padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .tech-stack {
@@ -209,7 +296,9 @@
         }
 
         .project-links {
-            margin-top: 1rem;
+            margin-top: auto;
+            /* Empuja los links al fondo */
+            padding-top: 1rem;
         }
 
         /* --- BLOG --- */
@@ -220,10 +309,36 @@
             border-left: 4px solid var(--accent-blue);
         }
 
+        .blog-header {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .blog-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-comment);
+            margin-bottom: 2rem;
+        }
+
         .blog-meta {
             color: var(--text-comment);
             font-size: 0.9rem;
             margin-bottom: 1rem;
+        }
+
+        .blog-post h2 {
+            margin-top: 0.5rem;
+            line-height: 1.2;
+            padding-top: 0rem;
+        }
+
+        .blog-body {
+            margin-top: 0rem;
+            padding-top: 0rem;
         }
 
         .blog-body h4 {
@@ -237,17 +352,28 @@
             padding: 1rem;
             margin-top: 2rem;
             border-radius: 4px;
+            position: relative;
         }
 
         /* --- SOBRE MÍ --- */
         .about-container {
             display: flex;
             gap: 3rem;
-            align-items: flex-start;
+            align-items: stretch;
+            min-height: 400px;
         }
 
         .about-text {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-img {
             flex: 2;
+            display: flex;
+            flex-direction: column;
         }
 
         .about-history {
@@ -264,6 +390,22 @@
             font-family: 'Fira Code', monospace;
             color: var(--text-comment);
             font-size: 0.85rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .img-corp {
+            max-width: 60%;
+            height: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--accent-blue);
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .img-corp:hover {
+            box-shadow: 0 0 20px var(--accent-blue);
+            transform: scale(1.05);
         }
 
         /* --- FOOTER --- */
@@ -277,17 +419,36 @@
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Simplificado para este ejemplo */
-            .about-container { flex-direction: column; }
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .about-container {
+                flex-direction: column;
+                align-items: center;
+                height: auto;
+            }
+
+            .about-img {
+                width: 100%;
+                height: 300px;
+                flex: none; 
+                margin-bottom: 2rem;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- NAVEGACIÓN -->
     <nav>
-        <div class="logo"><span style="color:var(--accent-blue)">class</span> AlexVilchez <span style="color:var(--accent-keyword)">extends</span> Developer</div>
+        <div class="logo"><span style="color:var(--accent-blue)">class</span> AlexVilchez <span
+                style="color:var(--accent-keyword)">extends</span> Developer</div>
         <div class="nav-links">
             <a href="#proyectos">01. Proyectos</a>
             <a href="#blog">02. Blog</a>
@@ -299,10 +460,11 @@
     <header>
         <div class="hero-tag">Hola, mi nombre es</div>
         <h1>Alex Vilchez.</h1>
-        <h2>Construyo cosas para la web y gestiono soluciones.</h2>
+        <h2>Desarrollo tecnología escalable con mentalidad de liderazgo.</h2>
         <p style="max-width: 600px; color: #a1a1aa;">
-            Estudiante de DAM y Becario Full Stack en Inetum. Combino lógica de programación avanzada con la experiencia operativa de coordinar equipos bajo presión.
-        </p>
+            Estudiante de DAM y Becario Full Stack en Inetum. Combino mi experiencia en coordinación de equipos y
+            actividades deportivas con la resolución de problemas aplicada en lógica de programación.
+        </p><br>
         <a href="#proyectos" class="cta-button">Ver mis Proyectos</a>
     </header>
 
@@ -310,61 +472,111 @@
     <section id="proyectos">
         <h3 class="section-title">Proyectos Destacados</h3>
         <div class="projects-grid">
-            
-            <!-- PROYECTO 1: TIENDA ONLINE -->
-            <div class="project-card">
-                <div class="project-img-container">
-                    <!-- TODO: Sube una captura de tu tienda Java a tu repo y pon el link aquí -->
-                    <!-- Ejemplo: <img src="assets/tienda-java.png" alt="Tienda Java"> -->
-                    <img src="https://via.placeholder.com/400x200/1e1e1e/d4d4d4?text=Java+Online+Store" alt="Java Project Preview">
-                </div>
-                <div class="project-content">
-                    <h3>Tienda Online Modular</h3>
-                    <p class="tech-stack">Java • JDBC • MySQL • Transacciones ACID</p>
-                    <p>
-                        Sistema de gestión de comercio electrónico diseñado con arquitectura modular. Implementa patrones de diseño, gestión avanzada de base de datos con JDBC, transacciones seguras (savepoints) y consultas JOIN complejas.
-                    </p>
-                    <div class="project-links">
-                        <!-- TODO: Pon aquí tu link de GitHub -->
-                        <a href="https://github.com/TU_USUARIO/TU_REPO_TIENDA" target="_blank" class="code-font"><i class="fab fa-github"></i> Ver en GitHub</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- PROYECTO 2: HOBBYMANIA -->
+            <!-- PROYECTO 1: HOBBYMANIA -->
             <div class="project-card">
-                <div class="project-img-container">
-                    <!-- TODO: Sube una captura de HobbyMania -->
-                    <img src="https://via.placeholder.com/400x200/1e1e1e/d4d4d4?text=HobbyMania+WinForms" alt="HobbyMania Preview">
+                <!-- CARRUSEL -->
+                <div class="carousel-container">
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel-track">
+                        <!-- Imagen 1 -->
+                        <div class="carousel-slide">
+                            <img src="assets/Videoclub-alq.png" alt="HobbyMania Dashboard">
+                        </div>
+                        <!-- Imagen 2  -->
+                        <div class="carousel-slide">
+                            <img src="assets/Videoclub-home.png" alt="HobbyMania Home">
+                        </div>
+                        <!-- Imagen 3 -->
+                        <div class="carousel-slide">
+                            <img src="assets/Videoclub-manual.png" alt="HobbyMania Manual">
+                        </div>
+                    </div>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 </div>
+
                 <div class="project-content">
                     <h3>HobbyMania Videoclub</h3>
                     <p class="tech-stack">C# • WinForms • CRUD • Generación Gráfica</p>
                     <p>
-                        Aplicación de escritorio para la gestión integral de un videoclub. Incluye CRUD completo de clientes y un motor de generación dinámica de pósters publicitarios personalizados para cada alquiler de película.
+                        Aplicación de escritorio para la gestión integral de un videoclub. Implementa un sistema CRUD
+                        completo para clientes y un motor de generación dinámica de pósters publicitarios personalizados
+                        basados en los datos de la película alquilada.
                     </p>
                     <div class="project-links">
-                        <!-- TODO: Pon aquí tu link de GitHub -->
-                        <a href="https://github.com/TU_USUARIO/TU_REPO_HOBBYMANIA" target="_blank" class="code-font">Ver en GitHub</a>
+                        <a href="https://github.com/AlexVP27/Videoclub-WinForms" target="_blank" class="code-font">
+                            <i class="fab fa-github"></i> Ver en GitHub
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- PROYECTO 3: UP2PLAY -->
+            <!-- PROYECTO 2: UP2PLAY -->
             <div class="project-card">
-                <div class="project-img-container">
-                    <!-- TODO: Sube una captura de UP2Play -->
-                    <img src="https://via.placeholder.com/400x200/1e1e1e/d4d4d4?text=UP2Play+Project" alt="UP2Play Preview">
+                <!-- CARRUSEL -->
+                <div class="carousel-container">
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel-track">
+                        <!-- Imagen 0 -->
+                        <div class="carousel-slide">
+                            <img src="assets/UP2Play-landing.png" alt="UP2Play Landing">
+                        </div>
+                        <!-- Imagen 1 -->
+                        <div class="carousel-slide">
+                            <img src="assets/UP2Play-login.png" alt="UP2Play Login">
+                        </div>
+                        <!-- Imagen 2 -->
+                        <div class="carousel-slide">
+                            <img src="" alt="UP2Play Actividades">
+                        </div>
+                        <!-- Imagen 3 -->
+                        <div class="carousel-slide">
+                            <img src="" alt="UP2Play Perfil">
+                        </div>
+                    </div>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 </div>
+
                 <div class="project-content">
                     <h3>UP2Play (Inetum)</h3>
-                    <p class="tech-stack">Colaborativo • Desarrollo Ágil • Innovación</p>
+                    <p class="tech-stack">Angular • PrimeNG • Tailwind • OracleSQL • SpringBoot</p>
                     <p>
-                        Proyecto colaborativo desarrollado durante mi etapa en Inetum. Enfocado en la creación de soluciones digitales innovadoras trabajando en un entorno real con metodologías ágiles.
+                        Proyecto colaborativo empresarial desarrollado en Inetum. Plataforma social deportiva para
+                        conectar personas y organizar eventos. Desarrollo enfocado en arquitecturas escalables,
+                        metodologías ágiles (Scrum) y stack tecnológico moderno.
                     </p>
                     <div class="project-links">
-                        <!-- TODO: Pon aquí tu link de GitHub -->
-                        <a href="https://github.com/TU_USUARIO/TU_REPO_UP2PLAY" target="_blank" class="code-font">Ver en GitHub</a>
+                        <a href="https://github.com/inetum-Up2Play/Up2Play" target="_blank" class="code-font">
+                            <i class="fab fa-github"></i> Ver en GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROYECTO 3: TIENDA ONLINE -->
+            <div class="project-card">
+                <!-- CARRUSEL -->
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        <!-- Imagen 1 -->
+                        <div class="carousel-slide">
+                            <img src="assets/Botiga.png" alt="Tienda Java Main">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-content">
+                    <h3>Tienda Online Modular</h3>
+                    <p class="tech-stack">Java • JDBC • MySQL • Transacciones ACID</p>
+                    <p>
+                        Sistema de e-commerce con arquitectura modular estricta. Destaca por la gestión de
+                        datos mediante JDBC puro, implementación de transacciones seguras (savepoints/rollback) y
+                        consultas SQL complejas optimizadas.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Xandre-vp27/Botiga" target="_blank" class="code-font">
+                            <i class="fab fa-github"></i> Ver en GitHub
+                        </a>
                     </div>
                 </div>
             </div>
@@ -375,31 +587,43 @@
     <!-- SECCIÓN BLOG -->
     <section id="blog">
         <h3 class="section-title">Blog Profesional</h3>
-        
+
         <article class="blog-post">
-            <header>
+            <div class="blog-header">
                 <div class="blog-meta">Publicado por Alex Vilchez | Categoría: Desarrollo & Soft Skills</div>
                 <h2>De la Coordinación Deportiva al Código: Por qué las Soft Skills importan en IT</h2>
-            </header>
+            </div>
             <div class="blog-body">
                 <p>
-                    A menudo se piensa que el desarrollo de software es una tarea puramente técnica, aislada frente a una pantalla. Sin embargo, mi transición desde el mundo del deporte y la coordinación de eventos (CAFYD) hacia la programación (DAM) me ha enseñado que el código es solo una parte de la ecuación.
+                    A menudo se piensa que el desarrollo de software es una tarea puramente técnica, aislada frente a
+                    una pantalla. Sin embargo, mi transición desde el mundo del deporte y la coordinación de eventos
+                    (CAFYD) hacia la programación (DAM) me ha enseñado que el código es solo una parte de la ecuación.
                 </p>
 
-                <h4>1. Gestión del Estrés y "Troubleshooting" en Vivo</h4>
+                <h4># Gestión del Estrés y "Troubleshooting" en Vivo</h4>
                 <p>
-                    Cuando coordinaba colonias escolares, no existía el botón de "compilar de nuevo". Si surgía un problema (un accidente, un cambio climático repentino), la solución debía ser inmediata. Esa capacidad de mantener la calma bajo presión es idéntica a la necesaria cuando un despliegue falla en producción. La lógica para aislar el problema es la misma, cambie el entorno o no.
+                    Cuando coordinaba colonias escolares, no existía el botón de "compilar de nuevo". Si surgía un
+                    problema (un accidente, un cambio climático repentino), la solución debía ser inmediata. Esa
+                    capacidad de mantener la calma bajo presión es idéntica a la necesaria cuando un despliegue falla en
+                    producción. La lógica para aislar el problema es la misma, cambie el entorno o no.
                 </p>
 
-                <h4>2. El Trabajo en Equipo no es Opcional</h4>
+                <h4># El Trabajo en Equipo no es Opcional</h4>
                 <p>
-                    Coordinar a 6 monitores con 80 niños requiere una comunicación precisa. En el desarrollo, con metodologías como Scrum, la claridad al explicar un bloqueo o documentar una API es lo que diferencia un proyecto exitoso de uno caótico.
+                    Coordinar a 6 monitores con 80 niños requiere una comunicación precisa. En el desarrollo, con
+                    metodologías como Scrum, la claridad al explicar un bloqueo o documentar una API es lo que
+                    diferencia un proyecto exitoso de uno caótico. El trabajo en equipo es la columna vertebral de
+                    cualquier
+                    proyecto de software.
                 </p>
 
                 <div class="advice-box">
                     <strong>💡 Mi Consejo Personal:</strong>
                     <p>
-                        Si vienes de otro sector, no ocultes tu pasado; úsalo. La capacidad de hablar con un cliente, entender sus necesidades y gestionar expectativas (algo que hacía a diario con profesores y padres) es a veces más difícil de enseñar que la sintaxis de Java. Aprende el código, domina la técnica, pero lidera con tu experiencia humana.
+                        Si vienes de otro sector, no ocultes tu pasado; úsalo. La capacidad de hablar con un cliente,
+                        entender sus necesidades y gestionar expectativas (algo que hacía a diario con profesores y
+                        padres) es a veces más difícil de enseñar que la sintaxis de Java. Aprende el código, domina la
+                        técnica, pero lidera con tu experiencia humana.
                     </p>
                 </div>
             </div>
@@ -412,34 +636,47 @@
         <div class="about-container">
             <div class="about-text">
                 <p>
-                    Soy estudiante de <strong>Desarrollo de Aplicaciones Multiplataforma (DAM)</strong> y actualmente trabajo como <strong>Becario Programador Full Stack</strong>. Mi perfil es híbrido: antes de escribir código, me gradué en CAFYD y trabajé gestionando grandes grupos humanos y logística operativa.
+                    Soy estudiante de <strong>Desarrollo de Aplicaciones Multiplataforma (DAM)</strong> y actualmente
+                    trabajo como <strong>Becario Programador Full Stack</strong>. Mi perfil es híbrido: antes de
+                    escribir código, me gradué en CAFYD y trabajé gestionando grandes grupos humanos y logística
+                    operativa.
                 </p>
                 <p style="margin-top: 1rem;">
-                    Hoy, aplico esa disciplina y capacidad de resolución de problemas al desarrollo de software, especializándome en Java, Bases de Datos y entornos corporativos.
+                    Hoy, aplico esa disciplina y capacidad de resolución de problemas al desarrollo de software,
+                    especializándome en Java, Bases de Datos, Angular y entornos corporativos.
                 </p>
 
                 <div class="about-history">
                     <div class="history-item">
                         <div class="history-date">2025 - Actualidad</div>
-                        <strong>Becario Full Stack @ Inetum Tarragona</strong><br>
+                        <strong>Becario Full Stack @ <a href="https://www.inetum.com/es/espana">Inetum
+                                Tarragona</a></strong><br>
                         Desarrollo Odoo, C# y Java.
                     </div>
                     <div class="history-item">
-                        <div class="history-date">2024 - 2025</div>
-                        <strong>Estudiante DAM @ Vidal i Barraquer</strong><br>
-                        Java, SQL, Programación orientada a objetos.
+                        <div class="history-date">2024 - 2026</div>
+                        <strong>Estudiante DAM @ <a href="https://www.vidalibarraquer.net/index.php/">Vidal i
+                                Barraquer</a></strong><br>
+                        Java, SQL, Odoo, C# y programación orientada a objetos.
                     </div>
                     <div class="history-item">
                         <div class="history-date">2023 - 2024</div>
-                        <strong>Coordinador Operativo @ Esportec Outdoor</strong><br>
-                        Liderazgo de equipos, gestión de incidencias críticas.
+                        <strong>Coordinador Deportivo @ <a href="https://www.esportec.cat/es/">Esportec
+                                Outdoor</a></strong><br>
+                        Liderazgo y coordinación de equipos, actividades en el medio natural y acuático.
                     </div>
                 </div>
+
+                <div class="about-video">
+                    <br>
+                    <p>
+                        Si quieres conocerme más, aquí tienes mi <a href="">videocurrículum</a>
+                    </p>
+                </div>
             </div>
-            <!-- Si quieres poner foto, descomenta esto -->
-            <!-- <div class="about-img">
-                <img src="tu-foto.jpg" alt="Alex Vilchez" style="max-width: 200px; border-radius: 4px; border: 1px solid var(--accent-blue);">
-            </div> -->
+            <div class="about-img">
+                <img src="assets/Foto-corp.JPG" alt="Alex Vilchez" class="img-corp">
+            </div>
         </div>
     </section>
 
@@ -460,10 +697,31 @@
             });
         });
 
+        // --- LÓGICA DEL CARRUSEL ---
+        document.querySelectorAll('.carousel-container').forEach(container => {
+            const track = container.querySelector('.carousel-track');
+            const btnPrev = container.querySelector('.prev');
+            const btnNext = container.querySelector('.next');
+
+            // Función para mover el scroll
+            const moveScroll = (direction) => {
+                const slideWidth = track.clientWidth;
+                if (direction === 'next') {
+                    track.scrollBy({ left: slideWidth, behavior: 'smooth' });
+                } else {
+                    track.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+                }
+            };
+
+            btnNext.addEventListener('click', () => moveScroll('next'));
+            btnPrev.addEventListener('click', () => moveScroll('prev'));
+        });
+
         // Efecto visual simple al cargar
         window.addEventListener('load', () => {
             console.log('Portfolio cargado correctamente. Bienvenido al código.');
         });
     </script>
 </body>
+
 </html>
