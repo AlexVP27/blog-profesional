@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portafolio profesional de Alex Vilchez - Desarrollador de Aplicaciones Multiplataforma">
+    <title>Alex Vilchez | Portfolio.java</title>
+    <!-- Fuente tipo código para dar el toque 'dev' -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES DE TEMA VS CODE --- */
+        :root {
+            --bg-body: #1e1e1e; /* Fondo VS Code */
+            --bg-card: #252526; /* Fondo Paneles */
+            --text-main: #d4d4d4;
+            --text-comment: #6a9955;
+            --accent-blue: #4fc1ff; /* Variables/Métodos */
+            --accent-cyan: #9cdcfe; /* Propiedades */
+            --accent-keyword: #569cd6; /* Keywords (public, class) */
+            --accent-string: #ce9178; /* Strings */
+            --border: #3c3c3c;
+            --btn-hover: #2d2d2d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-blue);
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(30, 30, 30, 0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-keyword);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+        }
+
+        .hero-tag {
+            color: var(--accent-keyword);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        header h2 {
+            font-size: 1.5rem;
+            color: var(--text-comment);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            font-family: 'Fira Code', monospace;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background: rgba(79, 193, 255, 0.1);
+            text-decoration: none;
+        }
+
+        /* --- SECCIONES GENERALES --- */
+        section {
+            padding: 5rem 10%;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "0" counter(section-counter) ". ";
+            color: var(--accent-blue);
+            margin-right: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+        }
+
+        section {
+            counter-increment: section-counter;
+        }
+
+        /* --- PROYECTOS --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .project-img-container {
+            width: 100%;
+            height: 180px;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover img {
+            opacity: 1;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .tech-stack {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin: 0.5rem 0;
+        }
+
+        .project-links {
+            margin-top: 1rem;
+        }
+
+        /* --- BLOG --- */
+        .blog-post {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .blog-meta {
+            color: var(--text-comment);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-body h4 {
+            color: var(--accent-cyan);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .advice-box {
+            background: rgba(106, 153, 85, 0.1);
+            border: 1px solid var(--text-comment);
+            padding: 1rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+        }
+
+        /* --- SOBRE MÍ --- */
+        .about-container {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .about-text {
+            flex: 2;
+        }
+
+        .about-history {
+            margin-top: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .history-item {
+            margin-bottom: 1rem;
+        }
+
+        .history-date {
+            font-family: 'Fira Code', monospace;
+            color: var(--text-comment);
+            font-size: 0.85rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-comment);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplificado para este ejemplo */
+            .about-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN -->
+    <nav>
+        <div class="logo"><span style="color:var(--accent-blue)">class</span> AlexVilchez <span style="color:var(--accent-keyword)">extends</span> Developer</div>
+        <div class="nav-links">
+            <a href="#proyectos">01. Proyectos</a>
+            <a href="#blog">02. Blog</a>
+            <a href="#sobre-mi">03. Sobre Mí</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header>
+        <div class="hero-tag">Hola, mi nombre es</div>
+        <h1>Alex Vilchez.</h1>
+        <h2>Construyo cosas para la web y gestiono soluciones.</h2>
+        <p style="max-width: 600px; color: #a1a1aa;">
+            Estudiante de DAM y Becario Full Stack en Inetum. Combino lógica de programación avanzada con la experiencia operativa de coordinar equipos bajo presión.
+        </p>
+        <a href="#proyectos" class="cta-button">Ver mis Proyectos</a>
+    </header>
+
+    <!-- SECCIÓN PROYECTOS -->
+    <section id="proyectos">
+        <h3 class="section-title">Proyectos Destacados</h3>
+        <div class="projects-grid">
+            
+            <!-- PROYECTO 1: TIENDA ONLINE -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <!-- TODO: Sube una captura de tu tienda Java a tu repo y pon el link aquí -->
+                    <!-- Ejemplo: <img src="assets/tienda-java.png" alt="Tienda Java"> -->
+                    <img src="https://via.placeholder.com/400x200/1e1e1e/d4d4d4?text=Java+Online+Store" alt="Java Project Preview">
+                </div>
+                <div class="project-content">
+                    <h3>Tienda Online Modular</h3>
+                    <p class="tech-stack">Java • JDBC • MySQL • Transacciones ACID</p>
+                    <p>
+                        Sistema de gestión de comercio electrónico diseñado con arquitectura modular. Implementa patrones de diseño, gestión avanzada de base de datos con JDBC, transacciones seguras (savepoints) y consultas JOIN complejas.
+                    </p>
+                    <div class="project-links">
+                        <!-- TODO: Pon aquí tu link de GitHub -->
+                        <a href="https://github.com/TU_USUARIO/TU_REPO_TIENDA" target="_blank" class="code-font"><i class="fab fa-github"></i> Ver en GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROYECTO 2: HOBBYMANIA -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <!-- TODO: Sube una captura de HobbyMania -->
+                    <img src="https://via.placeholder.com/400x200/1e1e1e/d4d4d4?text=HobbyMania+WinForms" alt="HobbyMania Preview">
+                </div>
+                <div class="project-content">
+                    <h3>HobbyMania Videoclub</h3>
+                    <p class="tech-stack">C# • WinForms • CRUD • Generación Gráfica</p>
+                    <p>
+                        Aplicación de escritorio para la gestión integral de un videoclub. Incluye CRUD completo de clientes y un motor de generación dinámica de pósters publicitarios personalizados para cada alquiler de película.
+                    </p>
+                    <div class="project-links">
+                        <!-- TODO: Pon aquí tu link de GitHub -->
+                        <a href="https://github.com/TU_USUARIO/TU_REPO_HOBBYMANIA" target="_blank" class="code-font">Ver en GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROYECTO 3: UP2PLAY -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <!-- TODO: Sube una captura de UP2Play -->
+                    <img src="https://via.placeholder.com/400x200/1e1e1e/d4d4d4?text=UP2Play+Project" alt="UP2Play Preview">
+                </div>
+                <div class="project-content">
+                    <h3>UP2Play (Inetum)</h3>
+                    <p class="tech-stack">Colaborativo • Desarrollo Ágil • Innovación</p>
+                    <p>
+                        Proyecto colaborativo desarrollado durante mi etapa en Inetum. Enfocado en la creación de soluciones digitales innovadoras trabajando en un entorno real con metodologías ágiles.
+                    </p>
+                    <div class="project-links">
+                        <!-- TODO: Pon aquí tu link de GitHub -->
+                        <a href="https://github.com/TU_USUARIO/TU_REPO_UP2PLAY" target="_blank" class="code-font">Ver en GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN BLOG -->
+    <section id="blog">
+        <h3 class="section-title">Blog Profesional</h3>
+        
+        <article class="blog-post">
+            <header>
+                <div class="blog-meta">Publicado por Alex Vilchez | Categoría: Desarrollo & Soft Skills</div>
+                <h2>De la Coordinación Deportiva al Código: Por qué las Soft Skills importan en IT</h2>
+            </header>
+            <div class="blog-body">
+                <p>
+                    A menudo se piensa que el desarrollo de software es una tarea puramente técnica, aislada frente a una pantalla. Sin embargo, mi transición desde el mundo del deporte y la coordinación de eventos (CAFYD) hacia la programación (DAM) me ha enseñado que el código es solo una parte de la ecuación.
+                </p>
+
+                <h4>1. Gestión del Estrés y "Troubleshooting" en Vivo</h4>
+                <p>
+                    Cuando coordinaba colonias escolares, no existía el botón de "compilar de nuevo". Si surgía un problema (un accidente, un cambio climático repentino), la solución debía ser inmediata. Esa capacidad de mantener la calma bajo presión es idéntica a la necesaria cuando un despliegue falla en producción. La lógica para aislar el problema es la misma, cambie el entorno o no.
+                </p>
+
+                <h4>2. El Trabajo en Equipo no es Opcional</h4>
+                <p>
+                    Coordinar a 6 monitores con 80 niños requiere una comunicación precisa. En el desarrollo, con metodologías como Scrum, la claridad al explicar un bloqueo o documentar una API es lo que diferencia un proyecto exitoso de uno caótico.
+                </p>
+
+                <div class="advice-box">
+                    <strong>💡 Mi Consejo Personal:</strong>
+                    <p>
+                        Si vienes de otro sector, no ocultes tu pasado; úsalo. La capacidad de hablar con un cliente, entender sus necesidades y gestionar expectativas (algo que hacía a diario con profesores y padres) es a veces más difícil de enseñar que la sintaxis de Java. Aprende el código, domina la técnica, pero lidera con tu experiencia humana.
+                    </p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- SECCIÓN SOBRE MÍ -->
+    <section id="sobre-mi">
+        <h3 class="section-title">Sobre Mí</h3>
+        <div class="about-container">
+            <div class="about-text">
+                <p>
+                    Soy estudiante de <strong>Desarrollo de Aplicaciones Multiplataforma (DAM)</strong> y actualmente trabajo como <strong>Becario Programador Full Stack</strong>. Mi perfil es híbrido: antes de escribir código, me gradué en CAFYD y trabajé gestionando grandes grupos humanos y logística operativa.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Hoy, aplico esa disciplina y capacidad de resolución de problemas al desarrollo de software, especializándome en Java, Bases de Datos y entornos corporativos.
+                </p>
+
+                <div class="about-history">
+                    <div class="history-item">
+                        <div class="history-date">2025 - Actualidad</div>
+                        <strong>Becario Full Stack @ Inetum Tarragona</strong><br>
+                        Desarrollo Odoo, C# y Java.
+                    </div>
+                    <div class="history-item">
+                        <div class="history-date">2024 - 2025</div>
+                        <strong>Estudiante DAM @ Vidal i Barraquer</strong><br>
+                        Java, SQL, Programación orientada a objetos.
+                    </div>
+                    <div class="history-item">
+                        <div class="history-date">2023 - 2024</div>
+                        <strong>Coordinador Operativo @ Esportec Outdoor</strong><br>
+                        Liderazgo de equipos, gestión de incidencias críticas.
+                    </div>
+                </div>
+            </div>
+            <!-- Si quieres poner foto, descomenta esto -->
+            <!-- <div class="about-img">
+                <img src="tu-foto.jpg" alt="Alex Vilchez" style="max-width: 200px; border-radius: 4px; border: 1px solid var(--accent-blue);">
+            </div> -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Diseñado y desarrollado por Alex Vilchez &copy; 2025</p>
+        <p class="code-font" style="font-size: 0.8rem; margin-top: 0.5rem;">Hecho con HTML, CSS y café.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling simple para los enlaces de navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Efecto visual simple al cargar
+        window.addEventListener('load', () => {
+            console.log('Portfolio cargado correctamente. Bienvenido al código.');
+        });
+    </script>
+</body>
+</html>
